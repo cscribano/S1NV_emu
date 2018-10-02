@@ -2,7 +2,7 @@
 A Space Invaders Emulator written from scratch in C++ with SDL2
 
 ## Screenshots
-![Screen 01](screenshoots/capture01.png?raw=true "Title")
+<img src="screenshots/capture01.PNG" width="250"> <img src="screenshots/capture02.PNG" width="250"> <img src="screenshots/Cattura03.PNG" width="250">
 
 ## Version 0.1 (Initial release)
 ### What works:
