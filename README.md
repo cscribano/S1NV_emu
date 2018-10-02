@@ -21,7 +21,7 @@ A Space Invaders Emulator written from scratch in C++ with SDL2
 ## How to play
 Before you can play you should have the actual Space Invaders rom in form of four distinct files named invaders.e/f/g/h
 
- The ROM files are copyrighted material and you aren't supposed to posses a copy of it without an explicit permission from the copyright owners.
+> The ROM files are copyrighted material and you aren't supposed to posses a copy of it without an explicit permission from the copyright owners.
 
 ### Windows
 The libraries needed are provided with the windows binaries, you should be able to play just by double clicking on SINV_emu.exe
