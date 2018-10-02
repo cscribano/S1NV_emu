@@ -7,7 +7,7 @@ A Space Invaders Emulator written from scratch in C++ with SDL2
 ## Version 0.1 (Initial release)
 ### What works:
 - Full Intel 8080 emulation
-- Graphing in glorious back and white at 2x resolution
+- Graphic in glorious back and white at 2x resolution
 - Sound
 - Joystick
 
