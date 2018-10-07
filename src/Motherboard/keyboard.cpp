@@ -23,3 +23,9 @@ uint8_t keyboard::HandleInput(){
 	uint8_t ret = ks[SDL_SCANCODE_3] | ks[SDL_SCANCODE_2] << 1 | ks[SDL_SCANCODE_1] << 2 | 0x8 | ks[SDL_SCANCODE_SPACE] <<4 | ks[SDL_SCANCODE_LEFT] << 5 | ks[SDL_SCANCODE_RIGHT]<<6;
 	return ret;
 }
+
+uint8_t keyboard::HandleInput2() {
+	const Uint8 *ks = SDL_GetKeyboardState(NULL);
+	uint8_t ret = (ks[SDL_SCANCODE_SPACE] << 4 | ks[SDL_SCANCODE_LEFT] << 5 | ks[SDL_SCANCODE_RIGHT] << 6)&0xFF;
+	return ret;
+}

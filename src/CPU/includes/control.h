@@ -74,7 +74,7 @@ void SPHL(I8080& i) {
 
 //IN port
 void IN(I8080& i) {
-	//std::cout << "IN - " << +i.I2 << "\n";
+
 	if (in_port(i.I2) != NULL) {
 		i.A = in_port(i.I2)();
 	}
@@ -82,8 +82,7 @@ void IN(I8080& i) {
 
 //OUT port
 void OUT(I8080 &i) {
-//	if(i.I2 != 6)
-	//	std::cout << "OUT - " << +i.I2 << "\n";
+
 	if (out_port(i.I2) != NULL) {
 		out_port(i.I2)(i.A);
 	}

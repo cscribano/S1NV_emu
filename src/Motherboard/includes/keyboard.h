@@ -22,6 +22,7 @@
 
 namespace keyboard {
 	uint8_t HandleInput();
+	uint8_t HandleInput2();
 };
 
 #endif // !KEYBOARD_H

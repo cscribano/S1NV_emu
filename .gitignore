@@ -3,3 +3,8 @@
 ################################################################################
 
 /.vs
+/src/.vs/SINV_emu/v15
+/src/Debug/SINV_emu.tlog
+/src/Debug
+/src/SINV_emu.vcxproj.user
+/src/ROM

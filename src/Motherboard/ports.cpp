@@ -20,7 +20,7 @@
 #include "includes/keyboard.h"
 #include"includes/sound.h"
 
-uint8_t IN_2() { return 0x00; }
+//uint8_t IN_2() { return 0x00; }
 
 uint8_t(*in_port(uint8_t adr))() {
 	switch (adr) {
@@ -29,7 +29,7 @@ uint8_t(*in_port(uint8_t adr))() {
 	case 1:
 		return keyboard::HandleInput;
 	case 2:
-		return IN_2;
+		return keyboard::HandleInput2;
 	case 3:
 		return shiftreg::read_reg;
 	default:
