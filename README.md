@@ -27,8 +27,8 @@ Before you can play you should have the actual Space Invaders rom in form of fou
 The libraries needed are provided with the windows binaries, you should be able to play just by double clicking on SINV_emu.exe
 
 ### GNU/Linux
-Before you can play you need to install SDL2 and SDL2_mixer, this process can be different depending on your bistro.
-On Debian based bistro you can simply execute:
+Before you can play you need to install SDL2 and SDL2_mixer, this process can be different depending on your distro.
+On Debian based distro you can simply execute:
 
 	 sudo apt-get install libsdl2-2.0-0 libsdl2-mixer-2.0-0 
 The *-dev* packets aren't needed unless you intend to compile the software by yourself.
