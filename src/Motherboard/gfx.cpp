@@ -1,46 +1,58 @@
 /*S1NV - a Space Invaders arcade emulator written in C++
-    Copyright (C) 2018  Carmelo Scribano
+	Copyright (C) 2018  Carmelo Scribano
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see [http://www.gnu.org/licenses/].
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see [http://www.gnu.org/licenses/].
 .*/
 
 #include "includes/gfx.h"
 #include"../CPU/includes/cpu.h"
 
 #include<iostream>
+#include<algorithm>
 
-display::display(I8080& i) : cpu { i }{
-
+display::display(I8080& i) : cpu{ i } {
+	/*
+		SDL_DisplayMode displayMode;
+		if(SDL_GetCurrentDisplayMode(0, &displayMode) == 0){
+			gScreenRect.w = displayMode.w;
+			gScreenRect.h = displayMode.h;
+		}
+	*/
 	_vram = &cpu.memory[0x2400];
 
 	_window = SDL_CreateWindow
 	(
-		"Still Testing : S1NV", SDL_WINDOWPOS_UNDEFINED,
+		"Still Testing : S1NV",
 		SDL_WINDOWPOS_UNDEFINED,
-		width * pxScale,
-		height * pxScale,
-		0
+		SDL_WINDOWPOS_UNDEFINED,
+		//gScreenRect.h,
+		//gScreenRect.w,
+		width*pxScale,
+		height*pxScale,
+		SDL_WINDOW_OPENGL
 	);
 
-	_renderer = SDL_CreateRenderer(_window, -1, 0);
+	_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
+
 	_texture = SDL_CreateTexture(
 		_renderer,
-		SDL_PIXELFORMAT_RGB332, 
-		SDL_TEXTUREACCESS_STATIC, 
-		width, 
+		SDL_PIXELFORMAT_RGB332,
+		SDL_TEXTUREACCESS_STATIC,
+		width,
 		height
 	);
+
 }
 
 void display::draw_gfx() {
@@ -73,10 +85,10 @@ void display::draw_gfx() {
 	SDL_RenderClear(_renderer);
 	SDL_RenderCopy(_renderer, _texture, NULL, NULL);
 	SDL_RenderPresent(_renderer);
-	
+
 }
 
-display::~display(){
+display::~display() {
 	SDL_DestroyWindow(_window);
 	SDL_DestroyRenderer(_renderer);
 	SDL_DestroyTexture(_texture);

@@ -129,6 +129,8 @@ public:
 	~I8080() { delete[] memory; }
 
 	int LoadRom(const char* fileName, size_t offset = 0x00);
+	int LoadRomHeader();
+
 	uint8_t EmulateCycle();
 
 	void EnableInterrput() { _PC_IET = PC, _IE = true; }

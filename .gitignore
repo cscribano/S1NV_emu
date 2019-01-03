@@ -8,3 +8,7 @@
 /src/Debug
 /src/SINV_emu.vcxproj.user
 /src/ROM
+/src/CPU/invaders_e.h
+/src/CPU/invaders_f.h
+/src/CPU/invaders_g.h
+/src/CPU/invaders_h.h

@@ -1,19 +1,20 @@
 /*S1NV - a Space Invaders arcade emulator written in C++
-    Copyright (C) 2018  Carmelo Scribano
+	Copyright (C) 2018  Carmelo Scribano
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see [http://www.gnu.org/licenses/].
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see [http://www.gnu.org/licenses/].
 .*/
+
 
 #include<SDL.h>
 #include<SDL_timer.h>
@@ -37,15 +38,28 @@ int error(const char* message) {
 }
 
 Uint32 UpdateTimersCB(Uint32 interval, void* param) {
+	/*
 	display *d = reinterpret_cast<display*>(param);
-	d->draw_gfx();
+	d->();
+	return 1000 / 120;
+	 */
+	SDL_Event event;
+	SDL_UserEvent userevent;
+
+	userevent.type = SDL_USEREVENT;
+	userevent.code = 0;
+
+	event.type = SDL_USEREVENT;
+	event.user = userevent;
+
+	SDL_PushEvent(&event);
 	return 1000 / 120;
 }
 
 
 int main(int argc, char** argv) {
 	bool di = false;
-	if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0) {
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0) {
 		string err = "SDL could not initialize! SDL Error: " + string(SDL_GetError());
 		return error(err.c_str());
 	}
@@ -54,32 +68,44 @@ int main(int argc, char** argv) {
 		string err = "SDL_mixer could not initialize! SDL_mixer Error: " + string(Mix_GetError());
 		return error(err.c_str());
 	}
-	
+
+
 	I8080 i(0x10000, 0x00);
 	display d{ i }; //TO-DO: color overlay
-	if (!snd::setup_sound()) {
+
+	if (!snd::setup_sound("res/SOUND")) {
 		error("Can not initialize sound effects, game will be muted");
 	}
 
-	int bl = i.LoadRom("ROM/invaders.h", 0);
-	bl += i.LoadRom("ROM/invaders.g", 0x0800);
-	bl += i.LoadRom("ROM/invaders.f", 0x1000);
-	bl += i.LoadRom("ROM/invaders.e", 0x1800);
 
+	int bl = i.LoadRomHeader();
 	if (bl != 2048 * 4) {
 		return error("Can not properly load ROMS/invaders.<h/g/f/e>\nPlease provide the proper ROM files\n");
 	}
-	
+	/*
+	else{
+		error("Rom loaded succesfully\n");
+	}
+	 */
 	bool loop = true;
-	SDL_TimerID timerID = SDL_AddTimer(1000 / 120, UpdateTimersCB, reinterpret_cast<void*>(&d));
+	SDL_TimerID timerID = SDL_AddTimer(1000 / 120, UpdateTimersCB, NULL);
 
 	while (loop) {
 
 		SDL_Event event;
 
 		while (SDL_PollEvent(&event)) {
-			if (event.type == SDL_QUIT)
+			switch (event.type) {
+			case SDL_USEREVENT:
+				d.draw_gfx();
+				break;
+
+			case SDL_QUIT:
 				loop = false;
+				break;
+			default:
+				break;
+			}
 		}
 		i.EmulateCycle(); //TO-DO: cycle counting @2MHz
 	}

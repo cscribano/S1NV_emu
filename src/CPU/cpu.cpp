@@ -18,6 +18,10 @@
 
 #include "includes/cpu.h"
 #include "includes/table.h"
+#include "invaders_e.h"
+#include "invaders_f.h"
+#include "invaders_g.h"
+#include "invaders_h.h"
 
 #include <fstream>
 #include<cstdarg>
@@ -59,6 +63,14 @@ int I8080::LoadRom(const char * fileName, size_t offset){
 		++i;
 	}
 	return i;
+}
+
+int I8080::LoadRomHeader() { //h-g-f-e
+	memcpy(memory, invaders_h, 2048);
+	memcpy(memory + 2048, invaders_g, 2048);
+	memcpy(memory + 4096, invaders_f, 2048);
+	memcpy(memory + 6144, invaders_e, 2048);
+	return 2048 * 4;
 }
 
 uint8_t I8080::EmulateCycle(){
