@@ -98,12 +98,12 @@ uint8_t I8080::EmulateCycle(){
 		break;
 	case 3:
 		I = memory[PC + 1] | (memory[PC + 2] << 8);
-		if (dbg)
-			std::sprintf(dbg_str, instructions[opcode].disassembly, I);
+		//if (dbg)
+			//std::sprintf(dbg_str, instructions[opcode].disassembly, I);
 		break;
 	default:
-		if (dbg)
-			std::sprintf(dbg_str, instructions[opcode].disassembly);
+		//if (dbg)
+			//std::sprintf(dbg_str, instructions[opcode].disassembly);
 		break;
 	}
 
