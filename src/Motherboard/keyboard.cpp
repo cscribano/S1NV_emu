@@ -18,32 +18,43 @@
 #include"includes/keyboard.h"
 #include<iostream>
 
+int nt;
+SDL_TouchID dev;
+
+void keyboard::initialize_input() {
+    nt = SDL_GetNumTouchDevices();
+    dev = SDL_GetTouchDevice(nt-1);
+}
+
 uint8_t keyboard::HandleInput() {
 	uint8_t ret = 0x8;
 
 #ifdef __ANDROID__
-    //SDL_TouchID device = SDL_GetTouchDevice(0);
 
-    SDL_Finger *finger = SDL_GetTouchFinger(8, 0);
+        for(int j=0; j<2;++j) { //dual fingers support
 
-    if(finger == NULL)
-    	ret = 0x8;
-    else {
-        if(finger->y < 0.7){ //top half of display
-            if(finger->x > 0.5) //top right = insert coin
-                ret = 0x9;
-            else //top left = 1 player
-             ret = 0xC;
+            SDL_Finger *finger = SDL_GetTouchFinger(dev, j);
+
+            if (finger != NULL) {
+                if (finger->y < 0.7) { //top half of display
+                    if (finger->x > 0.65) //top right = 1 player
+                        ret |= 0x4;
+                    else if (finger->x < 0.35) //top left = 2 players
+                        ret |= 0x2;
+                    else //top center = insert coin
+                        ret |= 0x1;
+                }
+                else {//bottom half
+                    if (finger->x > 0.65) //bottom right = right
+                        ret |= 0x40;
+                    else if (finger->x < 0.35) //bottom left = left
+                        ret |= 0x20;
+                    else //bottom center = shoot
+                        ret |= 0x10;
+                }
+            }
         }
-        else{//bottom half
-            if(finger->x > 0.6) //bottom right = right
-                ret = 0x48;
-            else if(finger->x < 0.4) //bottom left = left
-                ret = 0x28;
-            else //bottom center = shoot
-                ret = 0x18;
-        }
-    }
+
 #else
 	const Uint8 *ks = SDL_GetKeyboardState(NULL);
 	ret = ks[SDL_SCANCODE_3] | ks[SDL_SCANCODE_2] << 1 | ks[SDL_SCANCODE_1] << 2 | 0x8 |
@@ -56,7 +67,29 @@ uint8_t keyboard::HandleInput() {
 }
 
 uint8_t keyboard::HandleInput2() {
-	const Uint8 *ks = SDL_GetKeyboardState(NULL);
-	uint8_t ret = (ks[SDL_SCANCODE_SPACE] << 4 | ks[SDL_SCANCODE_LEFT] << 5 | ks[SDL_SCANCODE_RIGHT] << 6)&0xFF;
-	return ret;
+    uint8_t ret = 0;
+
+#ifdef __ANDROID__
+
+    for(int j=0; j<2;++j) { //dual fingers support
+
+        SDL_Finger *finger = SDL_GetTouchFinger(dev, j);
+
+        if (finger != NULL) {
+            if (finger->y > 0.7) { //bottom half of display
+                if (finger->x > 0.65) //bottom right = right
+                    ret |= 0x40;
+                else if (finger->x < 0.35) //bottom left = left
+                    ret |= 0x20;
+                else //bottom center = shoot
+                    ret |= 0x10;
+            }
+        }
+    }
+
+#else
+    const Uint8 *ks = SDL_GetKeyboardState(NULL);
+    ret = (ks[SDL_SCANCODE_SPACE] << 4 | ks[SDL_SCANCODE_LEFT] << 5 | ks[SDL_SCANCODE_RIGHT] << 6)&0xFF;
+#endif
+    return ret;
 }

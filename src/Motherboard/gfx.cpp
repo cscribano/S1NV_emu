@@ -22,15 +22,20 @@
 #include<algorithm>
 
 display::display(I8080& i) : cpu{ i } {
-	/*
-		SDL_DisplayMode displayMode;
-		if(SDL_GetCurrentDisplayMode(0, &displayMode) == 0){
-			gScreenRect.w = displayMode.w;
-			gScreenRect.h = displayMode.h;
-		}
-	*/
-	_vram = &cpu.memory[0x2400];
 
+    _vram = &cpu.memory[0x2400];
+
+#ifdef __ANDROID__
+
+    SDL_DisplayMode displayMode;
+
+	if(SDL_GetCurrentDisplayMode(0, &displayMode) == 0){
+		gScreenRect.w = displayMode.w;
+		gScreenRect.h = displayMode.h;
+	}
+    _window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, gScreenRect.w, gScreenRect.h, SDL_WINDOW_SHOWN );
+
+#else
 	_window = SDL_CreateWindow
 	(
 		"Still Testing : S1NV",
@@ -42,10 +47,14 @@ display::display(I8080& i) : cpu{ i } {
 		height*pxScale,
 		SDL_WINDOW_OPENGL
 	);
+#endif
 
 	_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 
-	_texture = SDL_CreateTexture(
+    //SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
+    SDL_RenderSetLogicalSize(_renderer, width, height);
+
+    _texture = SDL_CreateTexture(
 		_renderer,
 		SDL_PIXELFORMAT_RGB332,
 		SDL_TEXTUREACCESS_STATIC,

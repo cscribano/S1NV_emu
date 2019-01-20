@@ -24,6 +24,9 @@ static int pxScale = 2;
 static int width = 224;
 static int height = 256;
 
+static SDL_Rect gScreenRect = { 0, 0, 320, 240 };
+
+
 class I8080;
 
 class display {

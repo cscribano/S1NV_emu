@@ -21,6 +21,7 @@
 #include <SDL.h>
 
 namespace keyboard {
+    void initialize_input();
 	uint8_t HandleInput();
 	uint8_t HandleInput2();
 };

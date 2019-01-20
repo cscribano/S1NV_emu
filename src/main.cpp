@@ -76,6 +76,8 @@ int main(int argc, char** argv) {
 
 #ifdef __ANDROID__
     const char* sndpath = "res/SOUND";
+    //initialize touch input
+    keyboard::initialize_input();
 #else
     const char* sndpath = "SOUND";
 #endif
