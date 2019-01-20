@@ -20,7 +20,9 @@
 
 #include<iostream>
 
-uint8_t(*in_port(uint8_t adr))();
+//uint8_t(*in_port(uint8_t adr))();
+
+uint8_t in_port(uint8_t adr);
 void(*out_port(uint8_t adr))(uint8_t acc);
 
 #endif // !PORTS_H

@@ -25,6 +25,7 @@
 #include"CPU/includes/cpu.h"
 #include"Motherboard/includes/gfx.h"
 #include "Motherboard/includes/sound.h"
+#include "Motherboard/includes/keyboard.h"
 
 using namespace std;
 
@@ -73,7 +74,13 @@ int main(int argc, char** argv) {
 	I8080 i(0x10000, 0x00);
 	display d{ i }; //TO-DO: color overlay
 
-	if (!snd::setup_sound("res/SOUND")) {
+#ifdef __ANDROID__
+    const char* sndpath = "res/SOUND";
+#else
+    const char* sndpath = "SOUND";
+#endif
+
+	if (!snd::setup_sound(sndpath)) {
 		error("Can not initialize sound effects, game will be muted");
 	}
 
@@ -82,11 +89,8 @@ int main(int argc, char** argv) {
 	if (bl != 2048 * 4) {
 		return error("Can not properly load ROMS/invaders.<h/g/f/e>\nPlease provide the proper ROM files\n");
 	}
-	/*
-	else{
-		error("Rom loaded succesfully\n");
-	}
-	 */
+
+
 	bool loop = true;
 	SDL_TimerID timerID = SDL_AddTimer(1000 / 120, UpdateTimersCB, NULL);
 
@@ -103,6 +107,7 @@ int main(int argc, char** argv) {
 			case SDL_QUIT:
 				loop = false;
 				break;
+
 			default:
 				break;
 			}

@@ -76,7 +76,7 @@ void SPHL(I8080& i) {
 void IN(I8080& i) {
 
 	if (in_port(i.I2) != NULL) {
-		i.A = in_port(i.I2)();
+		i.A = in_port(i.I2);
 	}
 }
 

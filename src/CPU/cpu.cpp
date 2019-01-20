@@ -27,6 +27,7 @@
 #include<cstdarg>
 #include<cstdio>
 #include<iomanip>
+#include<cstring>
 
 using namespace std;
 
