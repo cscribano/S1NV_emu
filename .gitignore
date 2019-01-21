@@ -7,9 +7,11 @@
 /src/Debug/SINV_emu.tlog
 /src/Debug
 /src/SINV_emu.vcxproj.user
-/src/ROM
+/src/ROM/*
+!/src/ROM/README.txt
 /src/CPU/invaders_e.h
 /src/CPU/invaders_f.h
 /src/CPU/invaders_g.h
 /src/CPU/invaders_h.h
 /src/S1NV
+/android/distribution
